@@ -1,35 +1,32 @@
 import React from 'react';
-import { Text, View, Image, Dimensions, ScrollView, StyleSheet   } from 'react-native';
+import { Text, View, Image, Dimensions, ScrollView, StyleSheet } from 'react-native';
 import TextTicker from 'react-native-text-ticker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
 
+const width = Dimensions.get('window').width;
 export default class App extends React.Component {
   render() {
-    
-    let width = Dimensions.get('window').width; //full width
-    let height = Dimensions.get('window').height; //full height
-    let pic = {
-      uri: 'http://bolpurkhabarwala.com/uploads/1543237091.jpg'
-    };
     return (
       <ScrollView style={styles.container}>
         <View style={styles.contentView}>
           <View>
-            <Swiper style={styles.wrapper} showsButtons={true}>
-              <View style={styles.slide1}>
-                <Text style={styles.text}>Hello Swiper</Text>
-              </View>
-              <View style={styles.slide2}>
-                <Text style={styles.text}>Beautiful</Text>
-              </View>
-              <View style={styles.slide3}>
-                <Text style={styles.text}>And simple</Text>
-              </View>
-            </Swiper>
+            <View style={styles.container}>
+              <Swiper style={styles.wrapper} height={200} horizontal={true} autoplay>
+                <View style={styles.slide} title={<Text numberOfLines={1}>Aussie tourist dies at Bali hotel</Text>}>
+                  <Image resizeMode='stretch' style={styles.image} source={require('./images/banner1.jpg')} />
+                </View>
+                <View style={styles.slide} title={<Text numberOfLines={1}>Why Stone split from Garfield</Text>}>
+                  <Image resizeMode='stretch' style={styles.image} source={require('./images/banner3.jpg')} />
+                </View>
+                <View style={styles.slide} title={<Text numberOfLines={1}>Big lie behind Nine’s new show</Text>}>
+                  <Image resizeMode='stretch' style={styles.image} source={require('./images/banner2.jpg')} />
+                </View>
+              </Swiper>
+            </View>
           </View>
           <View style={styles.headerContainer}>
-            
+
             <TextTicker
               style={{ fontSize: 24 }}
               duration={16000}
@@ -42,7 +39,7 @@ export default class App extends React.Component {
         </View>
       </ScrollView>
     );
-    
+
   }
 }
 const styles = StyleSheet.create({
@@ -74,29 +71,29 @@ const styles = StyleSheet.create({
 
   wrapper: {
   },
-  slide1: {
+  slide: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB',
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#97CAE5',
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#92BBD9',
+    backgroundColor: 'transparent'
   },
   text: {
     color: '#fff',
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
+  image: {
+    width : width,
+    flex: 1
+  },
+  paginationStyle: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10
+  },
+  paginationText: {
+    color: 'white',
+    fontSize: 20
+  }
 });
 
 // AppRegistry.registerComponent('AwesomeProject', () => Bananas);
