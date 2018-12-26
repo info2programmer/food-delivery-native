@@ -3,7 +3,7 @@ import { Text, View, Image, Dimensions, ScrollView, StyleSheet, StatusBar, Platf
 import TextTicker from 'react-native-text-ticker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
-
+import NavigationBar from 'react-native-navbar';
 
 const MyStatusBar = ({ backgroundColor, ...props }) => (
   <View style={[styles.statusBar, { backgroundColor }]}>
@@ -11,13 +11,20 @@ const MyStatusBar = ({ backgroundColor, ...props }) => (
   </View>
 );
 
+
+const titleConfig = {
+  title: 'Khaabarwala'
+};
 const width = Dimensions.get('window').width;
 export default class App extends React.Component {
   render() {
     return (
-      
       <ScrollView style={styles.container}>
-        <MyStatusBar backgroundColor="#fdff06" barStyle="dark-content" />
+        <MyStatusBar backgroundColor="#d7d832" barStyle="dark-content" />
+        <NavigationBar
+          style={{ backgroundColor: 'yellow' }}
+          title={titleConfig}
+        />
         <View style={styles.contentView}>
           <View>
             <View style={styles.container}>
@@ -63,7 +70,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '100%',
+    width: width,
     marginTop: 20,
   },
   headerContainer: {
