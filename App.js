@@ -1,9 +1,10 @@
 import React from 'react';
-import { Text, View, Image, Dimensions, ScrollView, StyleSheet, StatusBar, Platform } from 'react-native';
+import { Text, View, Image, Dimensions, ScrollView, StyleSheet, StatusBar, Platform, FlatList } from 'react-native';
 import TextTicker from 'react-native-text-ticker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
 import NavigationBar from 'react-native-navbar';
+import { SearchBar, ListItem, List  } from 'react-native-elements';
 
 const MyStatusBar = ({ backgroundColor, ...props }) => (
   <View style={[styles.statusBar, { backgroundColor }]}>
@@ -13,8 +14,27 @@ const MyStatusBar = ({ backgroundColor, ...props }) => (
 
 
 const titleConfig = {
-  title: 'Khaabarwala'
+  title: 'KHAABARWALA'
 };
+
+
+const list = [
+  {
+    name: 'Amy Farha',
+    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+    subtitle: 'Vice President'
+  },
+  {
+    name: 'Chris Jackson',
+    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+    subtitle: 'Vice Chairman'
+  },
+];
+
+
+
+
+
 const width = Dimensions.get('window').width;
 export default class App extends React.Component {
   render() {
@@ -25,6 +45,8 @@ export default class App extends React.Component {
           style={{ backgroundColor: 'yellow' }}
           title={titleConfig}
         />
+        <SearchBar
+          placeholder='Search By Restaurent' />
         <View style={styles.contentView}>
           <View>
             <View style={styles.container}>
@@ -42,7 +64,6 @@ export default class App extends React.Component {
             </View>
           </View>
           <View style={styles.headerContainer}>
-
             <TextTicker
               style={{ fontSize: 24 }}
               duration={16000}
@@ -50,12 +71,30 @@ export default class App extends React.Component {
               loop
               scroll
               marqueeDelay={1000}
-              marqueeResetDelay={1000}> <Icon color="white" name="star" size={20} style={{ color: 'red' }} /> In publishing and graphic design, lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content. <Icon color="white" name="star" size={20} style={{ color: 'red' }} /></TextTicker>
+              marqueeResetDelay={1000}> <Icon color="white" name="star" size={20} style={{ color: 'red' }} /> In publishing and graphic design, lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content. <Icon color="white" name="star" size={20} style={{ color: 'red' }} /></TextTicker>            
           </View>
+          <Text h3>Heading 4</Text>
+          <List>
+            <FlatList
+              data={list}
+              renderItem={this.renderRow}
+              keyExtractor={item => item.name}
+            />
+          </List>
         </View>
       </ScrollView>
     );
 
+  }
+  renderRow({ item }) {
+    return (
+      <ListItem
+        roundAvatar
+        title={item.name}
+        subtitle={item.subtitle}
+        avatar={{ uri: item.avatar_url }}
+      />
+    )
   }
 }
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
@@ -100,7 +139,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   image: {
-    width : width,
+    width: width,
     flex: 1
   },
   paginationStyle: {
