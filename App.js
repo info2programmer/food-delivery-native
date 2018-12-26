@@ -1,14 +1,23 @@
 import React from 'react';
-import { Text, View, Image, Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { Text, View, Image, Dimensions, ScrollView, StyleSheet, StatusBar, Platform } from 'react-native';
 import TextTicker from 'react-native-text-ticker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
+
+
+const MyStatusBar = ({ backgroundColor, ...props }) => (
+  <View style={[styles.statusBar, { backgroundColor }]}>
+    <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+  </View>
+);
 
 const width = Dimensions.get('window').width;
 export default class App extends React.Component {
   render() {
     return (
+      
       <ScrollView style={styles.container}>
+        <MyStatusBar backgroundColor="#fdff06" barStyle="dark-content" />
         <View style={styles.contentView}>
           <View>
             <View style={styles.container}>
@@ -42,6 +51,8 @@ export default class App extends React.Component {
 
   }
 }
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
@@ -93,7 +104,14 @@ const styles = StyleSheet.create({
   paginationText: {
     color: 'white',
     fontSize: 20
-  }
+  },
+  statusBar: {
+    height: STATUSBAR_HEIGHT,
+  },
+  appBar: {
+    backgroundColor: '#79B45D',
+    height: APPBAR_HEIGHT,
+  },
 });
 
 // AppRegistry.registerComponent('AwesomeProject', () => Bananas);
