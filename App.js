@@ -3,30 +3,16 @@ import { Text, View, Image, Dimensions, ScrollView, StyleSheet, StatusBar, Platf
 import TextTicker from 'react-native-text-ticker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
-import NavigationBar from 'react-native-navbar';
 import { SearchBar, Divider, Card, Button, Rating  } from 'react-native-elements';
+import { createStackNavigator, createAppContainer,createBottomTabNavigator } from "react-navigation";
+// import {Icon} from 'react-native-vector-icons';
 
-const MyStatusBar = ({ backgroundColor, ...props }) => (
-  <View style={[styles.statusBar, { backgroundColor }]}>
-    <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-  </View>
-);
-
-
-const titleConfig = {
-  title: 'KHAABARWALA'
-};
 
 const width = Dimensions.get('window').width;
-export default class App extends React.Component {
+class App extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <MyStatusBar backgroundColor="#CCCC00" barStyle="dark-content" />
-        <NavigationBar
-          style={{ backgroundColor: 'yellow' }}
-          title={titleConfig}
-        />
         <SearchBar
           placeholder='Search By Restaurent' />
         <ScrollView style={styles.container}>
@@ -75,7 +61,10 @@ export default class App extends React.Component {
                 icon={<Icon name='code' color='#ffffff' />}
                 backgroundColor='#03A9F4'
                 buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-                title='VIEW NOW' />
+                title='VIEW NOW' onPress={()=>this.props.navigation.navigate('Details',{
+                  itemId: 86,
+                  otherParam: 'WOW MOMO',
+                })} />
             </Card>
             <Card
               title='PIZZA NATION'
@@ -93,7 +82,10 @@ export default class App extends React.Component {
                 icon={<Icon name='code' color='#ffffff' />}
                 backgroundColor='#03A9F4'
                 buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-                title='VIEW NOW' />
+                title='VIEW NOW' onPress={()=>this.props.navigation.navigate('Details',{
+                  itemId: 87,
+                  otherParam: 'PIZZA NATION',
+                })} />
             </Card>
             <Card
               title='Ebala Obala'
@@ -111,7 +103,10 @@ export default class App extends React.Component {
                 icon={<Icon name='code' color='#ffffff' />}
                 backgroundColor='#03A9F4'
                 buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-                title='VIEW NOW' />
+                title='VIEW NOW' onPress={()=>this.props.navigation.navigate('Details',{
+                  itemId: 87,
+                  otherParam: 'Ebala Obala',
+                })} />
             </Card>
             <Divider style={{ backgroundColor: '#D3D3D3', marginTop: 5 }} />
           </View>
@@ -189,3 +184,131 @@ const styles = StyleSheet.create({
 // AppRegistry.registerComponent('AwesomeProject', () => Bananas);
 
 
+// This Is Test Components
+class DetailsScreen extends React.Component {
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('otherParam', 'A Nested Details Screen'),
+    };
+  };
+  render() {
+    const { navigation } = this.props;
+    const itemId = navigation.getParam('itemId', 'NO-ID');
+    
+    return (
+      <View style={{ flex: 1 }}>
+          <Text>Hello There</Text>
+      </View>
+
+    );
+
+  }
+
+}
+
+// This Is Test Components
+class CartScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+          <Text>Cart Screen</Text>
+      </View>
+
+    );
+
+  }
+
+}
+
+// This Is Test Components
+class AccountScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+          <Text>Account Screen</Text>
+      </View>
+
+    );
+
+  }
+
+}
+
+const TabNavigator = createBottomTabNavigator({
+  Khabarwala: {screen: App,
+    navigationOptions:{
+      tabBarLable: 'Home',
+      tabBarIcon : ({tintColor})=>(
+        <Icon name="home" color={tintColor} size={24} />
+      )
+    }
+  },
+  Cart: {screen : CartScreen,
+    navigationOptions:{
+      tabBarLable: 'Cart',
+      tabBarIcon : ({tintColor})=>(
+        <Icon name="shopping-cart" color={tintColor} size={24} />
+      )
+    }
+  },
+  Account: {screen :AccountScreen,
+    navigationOptions:{
+      tabBarLable: 'Account',
+      tabBarIcon : ({tintColor})=>(
+        <Icon name="user" color={tintColor} size={24} />
+      )
+    }
+  },
+},{
+  navigationOptions:({navigation})=>{
+    const { routeName } = navigation.state.routes[navigation.state.index];
+    return{
+      headerTitle :routeName,
+      headerStyle: {
+        backgroundColor: 'yellow',
+      },
+      headerTintColor: '#000',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
+  },
+  tabBarOptions:{
+    activeTintColor : '#e09200',
+    inactiveTintColor : 'gray'
+  }
+});
+
+const RootStack = createStackNavigator(
+  {
+    Khabarwala: TabNavigator,
+    Details: DetailsScreen,
+  },
+  {
+    defaultNavigationOptions:({navigation})=>{
+      return{
+        headerStyle: {
+          backgroundColor: 'yellow',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }
+    }
+  }
+);
+
+const AppContainer = createAppContainer(RootStack);
+
+export default class Khabarwala extends React.Component {
+ 
+  render() {
+    return (
+      <View style={{flex:1}}>
+        <AppContainer />
+      </View>
+    );
+  }
+}
